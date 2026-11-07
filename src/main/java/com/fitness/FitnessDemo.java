@@ -1,36 +1,19 @@
 package com.fitness;
 
-import com.fitness.adapter.*;
-import com.fitness.factory.*;
-import com.fitness.observer.*;
-import com.fitness.strategy.*;
+import com.fitness.facade.WorkoutFacade;
+import com.fitness.factory.StrengthExerciseCreator;
+import com.fitness.strategy.EasyWorkoutStrategy;
 
 public class FitnessDemo {
     public static void main(String[] args) {
-        ExerciseCreator creator = new StrengthExerciseCreator();
-        Exercise exercise = creator.createExercise();
+        WorkoutFacade facade = new WorkoutFacade();
 
-        WorkoutContext context =
-                new WorkoutContext(new EasyWorkoutStrategy());
-
-        System.out.println("Exercise " + exercise.getName());
-        System.out.println(
-                "Amount: " + context.calculateAmount(exercise)
-                + " " + exercise.getUnit()
+        facade.startWorkout(
+                "Morning workout",
+                new StrengthExerciseCreator(),
+                new EasyWorkoutStrategy()
         );
-
-        FitnessTrackerApp tracker =
-                new FitnessBandAdapter(new FitnessBand());
-
-        WorkoutSession session =
-                new WorkoutSession("Morning workout", tracker);
-
-        ProgressTracker progress = new ProgressTracker();
-
-        session.subscribe(new ConsoleNotifier());
-        session.subscribe(progress);
-
-        session.complete();
-        progress.showProgress();
+        facade.finishWorkout();
+        facade.showStatistics();
     }
 }

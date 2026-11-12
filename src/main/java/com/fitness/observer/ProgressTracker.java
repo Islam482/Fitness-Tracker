@@ -3,7 +3,7 @@ package com.fitness.observer;
 public class ProgressTracker implements WorkoutObserver {
     private int completedWorkouts;
     private int totalSteps;
-    private int totalCalories;
+    private double totalCalories;
 
     @Override
     public void update(String workoutName, int steps, double calories) {

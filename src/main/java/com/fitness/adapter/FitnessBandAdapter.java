@@ -1,7 +1,7 @@
 package com.fitness.adapter;
 
 public class FitnessBandAdapter implements FitnessTrackerApp {
-    private FitnessBand fitnessBand;
+    private final FitnessBand fitnessBand;
 
     public FitnessBandAdapter(FitnessBand fitnessBand) {
         this.fitnessBand = fitnessBand;
@@ -9,15 +9,15 @@ public class FitnessBandAdapter implements FitnessTrackerApp {
 
     @Override
     public int getSteps() {
-        String rawData = fitnessBand.getBandData();
-        String stepsString = rawData.split(",")[0].split(":")[1].trim();
-        return Integer.parseInt(stepsString);
+        return Integer.parseInt(readField(0));
     }
 
     @Override
     public double getCalories() {
-        String rawData = fitnessBand.getBandData();
-        String caloriesString = rawData.split(",")[1].split(":")[1].trim();
-        return Double.parseDouble(caloriesString);
+        return Double.parseDouble(readField(1));
+    }
+
+    private String readField(int index) {
+        return fitnessBand.getBandData().split(",")[index].split(":")[1].trim();
     }
 }
